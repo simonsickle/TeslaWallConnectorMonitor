@@ -13,3 +13,4 @@ files[] = {"path":"openapi.yaml","metaData":{}}
 
 [relations.apiDefinition.metaData]
 type = openapi:3_1
+rootFiles[] = openapi.yaml
