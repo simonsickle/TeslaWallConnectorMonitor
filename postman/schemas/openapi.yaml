@@ -1,0 +1,223 @@
+openapi: 3.0.3
+info:
+    title: Tesla Wall Connector
+    version: 1.0.0
+
+servers:
+    - url: http://{ip}/api/1
+      description: Wall Connector (LAN)
+      variables:
+          ip:
+              default: 0.0.0.0
+              description: IP of the wall connector on your LAN
+
+paths:
+    /vitals:
+        get:
+            tags:
+                - Statistics
+            summary: Current statistics and information
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/VitalsResponse"
+    /wifi_status:
+        get:
+            tags:
+                - Statistics
+            summary: Current Wi-Fi information
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WiFiStatusResponse"
+    /lifetime:
+        get:
+            tags:
+                - Statistics
+            summary: Lifetime statistics
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/LifetimeResponse"
+    /version:
+        get:
+            tags:
+                - Information
+            summary: Current version
+            responses:
+                200:
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/VersionResponse"
+
+components:
+    schemas:
+        VitalsResponse:
+            type: object
+            properties:
+                contactor_closed:
+                    type: boolean
+                vehicle_connected:
+                    type: boolean
+                session_s:
+                    type: integer
+                    format: int64
+                    example: 10718
+                grid_v:
+                    type: number
+                    format: float
+                    example: 236.4
+                grid_hz:
+                    type: number
+                    format: float
+                    example: 59.689
+                vehicle_current_a:
+                    type: number
+                    format: float
+                    example: 48.6
+                currentA_a:
+                    type: number
+                    format: float
+                    example: 22.3
+                currentB_a:
+                    type: number
+                    format: float
+                    example: 26.3
+                currentC_a:
+                    type: number
+                    format: float
+                    example: 25.9
+                currentN_a:
+                    type: number
+                    format: float
+                    example: 22.7
+                voltageA_v:
+                    type: number
+                    format: float
+                    example: 240.5
+                voltageB_v:
+                    type: number
+                    format: float
+                    example: 240.9
+                voltageC_v:
+                    type: number
+                    format: float
+                    example: 118.6
+                relay_coil_v:
+                    type: number
+                    format: float
+                    example: 6.1
+                pcba_temp_c:
+                    type: number
+                    format: float
+                    example: 66.8
+                handle_temp_c:
+                    type: number
+                    format: float
+                    example: 39.1
+                mcu_temp_c:
+                    type: number
+                    format: float
+                    example: 52.8
+                uptime_s:
+                    type: integer
+                    format: int64
+                input_thermopile_uv:
+                    type: integer
+                    example: -2005
+                prox_v:
+                    type: number
+                    format: float
+                    example: 1.5
+                pilot_high_v:
+                    type: number
+                    format: float
+                pilot_low_v:
+                    type: number
+                    format: float
+                session_energy_wh:
+                    type: number
+                    format: float
+                config_status:
+                    type: integer
+                evse_state:
+                    type: integer
+                current_alerts:
+                    type: array
+                    items:
+                        type: string
+                    example: []
+        WiFiStatusResponse:
+            type: object
+            properties:
+                wifi_ssid:
+                    type: string
+                    example: TXkgV2lGaQ==
+                wifi_signal_strength:
+                    type: integer
+                    example: 98
+                wifi_rssi:
+                    type: integer
+                    example: -41
+                wifi_snr:
+                    type: integer
+                    example: 51
+                wifi_connected:
+                    type: boolean
+                wifi_infra_ip:
+                    type: string
+                    format: ipv4
+                internet:
+                    type: boolean
+                wifi_mac:
+                    type: string
+                    pattern: ^([A-F0-9]{2}:){5}[A-F0-9]{2}$
+        LifetimeResponse:
+            type: object
+            properties:
+                contactor_cycles:
+                    type: integer
+                contactor_cycles_loaded:
+                    type: integer
+                alert_count:
+                    type: integer
+                thermal_foldbacks:
+                    type: integer
+                avg_startup_temp:
+                    type: number
+                    format: float
+                charge_starts:
+                    type: integer
+                energy_wh:
+                    type: integer
+                    format: int64
+                connector_cycles:
+                    type: integer
+                uptime_s:
+                    type: integer
+                    format: int64
+                charging_time_s:
+                    type: integer
+                    format: int64
+        VersionResponse:
+            type: object
+            properties:
+                firmware_version:
+                    type: string
+                    example: 22.23.0+gb7356e54a091bc
+                part_number:
+                    type: string
+                    example: 1457768-02-G
+                serial_number:
+                    type: string
